@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zombie Adventure Game</title>
+  <style>
+    body { font-family: Arial, sans-serif; background-color: #222; color: #eee; text-align: center; padding: 20px; }
+    #game-container { max-width: 600px; margin: auto; }
+    button { padding: 10px 20px; font-size: 16px; margin: 5px; }
+    img { width: 100%; max-width: 600px; border-radius: 10px; margin-top: 10px; }
+  </style>
+</head>
+<body>
+
+  <div id="game-container">
+    <h1>Survivor’s Code: Zombie Adventure</h1>
+    <p id="story">You wake up in an abandoned science lab. Zombies are everywhere, and you must escape. Your skills in science and sports might be your only hope. What do you do?</p>
+    <img id="background" src="lab.jpg" alt="Lab Background">
+    <img id="zombie" src="zombie.jpg" alt="Zombie Image" style="display:none;">
+    <img id="heartImage" src="heart_graph.jpg" alt="Heart Graph" style="display:none;">
+    <div id="choices">
+      <button onclick="nextScene('lab')">Search the lab for clues</button>
+      <button onclick="nextScene('run')">Make a run for it</button>
+    </div>
+  </div>
+
+  <script>
+    let wrongAttempts = 0;
+
+    function nextScene(choice) {
+      const story = document.getElementById('story');
+      const choices = document.getElementById('choices');
+      const background = document.getElementById('background');
+      const zombie = document.getElementById('zombie');
+      const heartImage = document.getElementById('heartImage');
+
+      if (choice === 'lab') {
+        background.src = "lab.jpg";
+        zombie.style.display = "none";
+        heartImage.style.display = "none";
+        story.innerHTML = "You find notes about a strange equation: X² + (5Y/4 - √|X|²)² = ? Solve the equation to unlock the door and proceed.";
+        choices.innerHTML = `<button onclick="showInstructions()">Continue</button>`;
+      } else if (choice === 'run') {
+        background.src = "arena.jpg";
+        zombie.style.display = "block";
+        story.innerHTML = "You dodge zombies but realize you're lost. You remember the sports arena might have supplies. Do you take the risk?";
+        choices.innerHTML = `
+          <button onclick="nextScene('arena')">Go to the arena</button>
+          <button onclick="nextScene('giveUp')">Give up and hide</button>
+        `;
+      } else if (choice === 'arena') {
+        background.src = "arena.jpg";
+        zombie.style.display = "block";
+        story.innerHTML = "The arena is filled with zombies! You spot a high ledge to jump to safety. Do you use your parkour skills?";
+        choices.innerHTML = `
+          <button onclick="nextScene('jump')">Attempt the jump</button>
+          <button onclick="nextScene('fight')">Fight the zombies</button>
+        `;
+      } else if (choice === 'jump') {
+        story.innerHTML = "You made it! You find a safe room with a message waiting for you.";
+        background.src = "lab.jpg";
+        zombie.style.display = "none";
+        choices.innerHTML = `<button onclick="nextScene('confession')">Read the message</button>`;
+      } else if (choice === 'confession') {
+        background.style.display = "none";
+        heartImage.style.display = "none";
+        story.innerHTML = "I can never say this in real life, so I thought it would be a good idea to create this game using AI just to tell you that... I like you.";
+        choices.innerHTML = `
+          <p>How do you feel?</p>
+          <button onclick="endGame('feelSame')">I feel the same </button>
+          <button onclick="endGame('enjoyedGame')">Let’s just say I enjoyed the game </button>
+        `;
+      } else if (choice === 'giveUp' || choice === 'fight') {
+        story.innerHTML = "The zombies overwhelmed you. Game over!";
+        choices.innerHTML = `<button onclick="location.reload()">Play Again</button>`;
+      }
+    }
+
+    function showInstructions() {
+      const story = document.getElementById('story');
+      const choices = document.getElementById('choices');
+      
+      story.innerHTML = "You find a note scratched on the wall: 'The path ahead holds secrets—some meant for your eyes only. If you’re ready, go on alone.'- If someone is actually playing with you then this will be awkward";
+      choices.innerHTML = `<button onclick="solvePuzzle()">Continue alone</button>`;
+    }
+
+    function solvePuzzle() {
+      const story = document.getElementById('story');
+      const choices = document.getElementById('choices');
+      const answer = prompt("Puzzle: What is the solution to X² + (5Y/4 - √|X|²)² = ? -just type 1 lol");
+      const heartImage = document.getElementById('heartImage');
+
+      if (answer && answer === "1") {
+        story.innerHTML = "Correct! You unlocked the door, and a special message appears. Here’s the shape of your answer:";
+        heartImage.style.display = "block";
+        heartImage.src = "heart_graph.jpg";  // Explicitly set the source to ensure it loads
+        console.log("Correct answer entered. Displaying heart image.");  // Debugging line
+        choices.innerHTML = `<button onclick="nextScene('arena')">Continue</button>`;
+        wrongAttempts = 0;  // Reset attempts after correct answer
+      } else {
+        wrongAttempts++;
+        if (wrongAttempts >= 2) {
+          choices.innerHTML = `<button onclick="showHint()">Need a hint?</button>`;
+        }
+        alert("Incorrect! Try again.");
+        solvePuzzle();
+      }
+    }
+
+    function showHint() {
+      alert("Hint: The answer is 1.");
+      solvePuzzle();
+    }
+
+    function endGame(response) {
+      const story = document.getElementById('story');
+      const choices = document.getElementById('choices');
+      
+      if (response === 'feelSame') {
+        window.open('https://forms.gle/nNKkFkKDgmL9nJ9n6');
+        story.innerHTML = "Thank you for playing! 😊";
+      } else if (response === 'enjoyedGame') {
+        window.open('https://forms.gle/qeKYLVSqa5ZzrEa2A');
+        story.innerHTML = "Thanks for playing! Hope you enjoyed the adventure!";
+      }
+      choices.innerHTML = ""; // Clears the choices so he can't play again
+    }
+  </script>
+
+</body>
+</html>
