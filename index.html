@@ -52,16 +52,13 @@
       } else if (choice === 'arena') {
         background.src = "arena.jpg";
         zombie.style.display = "block";
-        story.innerHTML = "The arena is filled with zombies! You spot a high ledge to jump to safety. Do you use your parkour skills?";
-        choices.innerHTML = `
-          <button onclick="nextScene('jump')">Attempt the jump</button>
-          <button onclick="nextScene('fight')">Fight the zombies</button>
-        `;
+        story.innerHTML = "The arena is filled with zombies! You spot a high ledge to jump to safety. But before proceeding, you need to solve a puzzle.";
+        choices.innerHTML = `<button onclick="showInstructions()">Attempt the puzzle</button>`;
       } else if (choice === 'jump') {
         story.innerHTML = "You made it! You find a safe room with a message waiting for you.";
         background.src = "lab.jpg";
         zombie.style.display = "none";
-        choices.innerHTML = `<button onclick="nextScene('confession')">Read the message</button>`;
+        choices.innerHTML = `<button onclick="showInstructions()">Read the message</button>`;
       } else if (choice === 'confession') {
         background.style.display = "none";
         heartImage.style.display = "none";
@@ -69,7 +66,7 @@
         choices.innerHTML = `
           <p>How do you feel?</p>
           <button onclick="endGame('feelSame')">I feel the same </button>
-          <button onclick="endGame('enjoyedGame')">Let’s just say I enjoyed the game </button>
+          <button onclick="endGame('enjoyedGame')">Let’s just say I thought this was an actual game </button>
         `;
       } else if (choice === 'giveUp' || choice === 'fight') {
         story.innerHTML = "The zombies overwhelmed you. Game over!";
@@ -81,22 +78,21 @@
       const story = document.getElementById('story');
       const choices = document.getElementById('choices');
       
-      story.innerHTML = "You find a note scratched on the wall: 'The path ahead holds secrets—some meant for your eyes only. If you’re ready, go on alone.'- If someone is actually playing with you then this will be awkward";
+      story.innerHTML = "You find a note scratched on the wall: 'The path ahead holds secrets—some meant for your eyes only. If you’re ready, go on alone.'";
       choices.innerHTML = `<button onclick="solvePuzzle()">Continue alone</button>`;
     }
 
     function solvePuzzle() {
       const story = document.getElementById('story');
       const choices = document.getElementById('choices');
-      const answer = prompt("Puzzle: What is the solution to X² + (5Y/4 - √|X|²)² = ? -just type 1 lol");
+      const answer = prompt("Puzzle: What is the solution to X² + (5Y/4 - √|X|²)² = ?");
       const heartImage = document.getElementById('heartImage');
 
       if (answer && answer === "1") {
         story.innerHTML = "Correct! You unlocked the door, and a special message appears. Here’s the shape of your answer:";
         heartImage.style.display = "block";
-        heartImage.src = "heart_graph.jpg";  // Explicitly set the source to ensure it loads
-        console.log("Correct answer entered. Displaying heart image.");  // Debugging line
-        choices.innerHTML = `<button onclick="nextScene('arena')">Continue</button>`;
+        heartImage.src = "heart_graph.jpg";
+        choices.innerHTML = `<button onclick="nextScene('confession')">Continue to the message</button>`;
         wrongAttempts = 0;  // Reset attempts after correct answer
       } else {
         wrongAttempts++;
@@ -118,10 +114,10 @@
       const choices = document.getElementById('choices');
       
       if (response === 'feelSame') {
-        window.open('https://forms.gle/nNKkFkKDgmL9nJ9n6');
+        window.open('https://forms.gle/FzfRMSRK9fnbbiQDA');
         story.innerHTML = "Thank you for playing! 😊";
       } else if (response === 'enjoyedGame') {
-        window.open('https://forms.gle/qeKYLVSqa5ZzrEa2A');
+        window.open('https://forms.gle/8MkfyBpawx6UAnQn8');
         story.innerHTML = "Thanks for playing! Hope you enjoyed the adventure!";
       }
       choices.innerHTML = ""; // Clears the choices so he can't play again
