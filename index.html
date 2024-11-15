@@ -15,7 +15,7 @@
 
   <div id="game-container">
     <h1>Survivor’s Code: Zombie Adventure</h1>
-    <p id="story">You wake up in an abandoned science lab. Zombies are everywhere, and you must escape. Your skills in science and sports might be your only hope. What do you do?</p>
+    <p id="story">You wake up in an abandoned science lab. Zombies are everywhere, and you must escape. What do you do?</p>
     <img id="background" src="lab.jpg" alt="Lab Background">
     <img id="zombie" src="zombie.jpg" alt="Zombie Image" style="display:none;">
     <img id="heartImage" src="heart_graph.jpg" alt="Heart Graph" style="display:none;">
@@ -62,7 +62,7 @@
       } else if (choice === 'confession') {
         background.style.display = "none";
         heartImage.style.display = "none";
-        story.innerHTML = "I can never say this in real life, so I thought it would be a good idea to create this game using AI just to tell you that... I like you.";
+        story.innerHTML = "I can never say this in real life, so I thought it would be a good idea to create this using AI just to tell you that... I like you. You know the saying; It's better to speak than to die";
         choices.innerHTML = `
           <p>How do you feel?</p>
           <button onclick="endGame('feelSame')">I feel the same </button>
